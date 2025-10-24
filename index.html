@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter of Surprise</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Set fonts and custom styles --><style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #fef2f2, #ffe4e6); /* Soft pink/rose gradient */
+        }
+
+        /* Custom styles for the elegant letter text inside */
+        #letter-content {
+            font-family: 'Playfair Display', serif;
+            line-height: 1.8; /* Slightly more space for paper feel */
+            color: #4b5563; 
+            font-size: 1.05rem; /* Slightly larger for readability */
+        }
+
+        /* ------------------------ */
+        /* Paper Texture for Letter */
+        /* ------------------------ */
+        .paper-texture {
+            background-color: #fcfaf0; /* Creamy paper base */
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23e0e0e0' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zm1 5v1H5z'/%3E%3C/g%3E%3C/svg%3E"); /* Subtle diagonal line texture */
+            filter: sepia(5%); /* Slightly warm, aged paper look */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1), 0 3px 6px rgba(0,0,0,0.05); /* More pronounced, soft shadow */
+            border: 1px solid #e0e0e0; /* Softer border */
+        }
+
+
+        /* ------------------------ */
+        /* CONFETTI ANIMATION STYLES */
+        /* ------------------------ */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            opacity: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffeb3b 10%, #f44336 90%); /* Brighter, festive confetti */
+            animation: fall 3s ease-in forwards;
+        }
+        
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotateZ(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotateZ(1080deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Confetti Container (hidden by default) --><div id="confetti-container" class="confetti-container hidden"></div>
+
+    <div id="main-content" class="w-full max-w-lg text-center">
+        
+        <!-- State 1: Initial Button View --><div id="initial-state" class="p-4 transition-opacity duration-500">
+            
+            <h1 class="text-4xl md:text-5xl font-extrabold text-pink-700 mb-10 mt-24 font-['Playfair_Display'] tracking-tight">
+                Ready for a delightful surprise?
+            </h1>
+
+            <button id="surprise-button" 
+                    class="px-8 py-4 bg-pink-600 text-white font-bold text-lg rounded-full shadow-lg transform transition duration-300 hover:bg-pink-700 hover:scale-105 active:scale-95 ring-4 ring-pink-300 ring-opacity-50"
+                    onclick="triggerSurprise()">
+                Unveil the Joy!
+            </button>
+        </div>
+
+        <!-- State 3: OPEN LETTER CONTENT (Initially hidden) --><div id="letter-state" class="hidden opacity-0 transition-opacity duration-1000">
+            <div class="paper-texture rounded-[1.5rem] p-10 border border-stone-300">
+                <p class="text-xs text-right text-gray-500 mb-4">October 25, 2025</p>
+                <div id="letter-content" class="text-gray-800 text-base md:text-lg space-y-5 text-left">
+                    <p>My Dear Rashika,</p>
+                    
+                    <p>I am writing something beautiful for you. As I know these days you are doing very hard work and trying to utilize every minute you have. You are rigorously preparing for your exams and giving them your all. I want you to take a moment for yourself and relax.</p>
+
+                    <p>Also, I am sorry I wanted to give you this earlier but could not do so due to my negligence. Additionally, I apologize for my rude behavior whenever I had shown it, especially in March.</p>
+
+                    <p>My hardworking friend and very, very kind person from heart. You deserve everything. Every joy, pleasure, treasure, money, health, and everything that this world will offer.</p>
+
+                    <div class="italic text-center text-lg text-pink-700 p-4 border-y border-pink-200 my-6 bg-pink-50/50">
+                        "A heart woven with gold, a spirit so true,<br>Bringing beauty and warmth to everything you do."
+                    </div>
+
+                    <p>I hope this small effort, this unexpected letter, brings a moment of joy and a smile to your face. And that you regain your health. Keep shining brightly.</p>
+                    
+                    <p class="mt-10 text-right">— Your Friend Imran</p>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-gray-500">
+                This is your special letter.
+            </div>
+        </div>
+    </div>
+
+    <!-- State 2: MODAL POPUP (Hidden by default) --><div id="surprise-modal" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden flex items-center justify-center transition-opacity duration-300 opacity-0"
+         onclick="hideModal(event)">
+        <div class="bg-white rounded-xl p-8 max-w-sm mx-4 shadow-2xl transform scale-90 transition-transform duration-300" 
+             onclick="event.stopPropagation()">
+            <h2 class="text-3xl font-bold text-green-600 mb-4 font-['Playfair_Display']">
+                A Wonderful Treat! 🎉
+            </h2>
+            <p class="text-gray-700 mb-6 text-lg">
+                **Hooray!** Thanks for opening the surprise. Your special letter is now ready to unfold.
+            </p>
+            <button class="w-full py-3 bg-pink-500 text-white font-semibold rounded-lg hover:bg-pink-600 transition"
+                    onclick="openLetter()">
+                Continue to Your Letter
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const initial_state = document.getElementById('initial-state');
+        const letter_state = document.getElementById('letter-state');
+        const modal = document.getElementById('surprise-modal');
+        const confettiContainer = document.getElementById('confetti-container');
+
+        /**
+         * Generates and animates confetti particles.
+         */
+        function generateConfetti() {
+            confettiContainer.classList.remove('hidden');
+            confettiContainer.innerHTML = ''; 
+            const count = 50;
+            for (let i = 0; i < count; i++) {
+                const c = document.createElement('div');
+                c.classList.add('confetti');
+                c.style.left = Math.random() * 100 + 'vw';
+                const color = Math.random() > 0.5 ? '#ffeb3b' : '#f44336'; 
+                c.style.background = `radial-gradient(circle, ${color} 10%, #ec4899 90%)`; /* Confetti colors adjusted for pink theme */
+                c.style.animationDelay = Math.random() * -2 + 's';
+                c.style.animationDuration = Math.random() * 2 + 2 + 's';
+                confettiContainer.appendChild(c);
+            }
+            setTimeout(() => {
+                confettiContainer.classList.add('hidden');
+                confettiContainer.innerHTML = '';
+            }, 3500);
+        }
+
+        /**
+         * State 1 -> State 2: Show celebration and modal popup.
+         */
+        function triggerSurprise() {
+            initial_state.classList.add('opacity-0');
+            setTimeout(() => {
+                initial_state.classList.add('hidden');
+            }, 500);
+
+            generateConfetti();
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-90');
+            }, 10);
+        }
+
+        /**
+         * Hides the modal (allows clicking outside the box to close, though the button is the primary method)
+         */
+        function hideModal(event) {
+            if (event.target === modal) {
+                // We'll let the button handle the transition to the letter state
+            }
+        }
+
+        /**
+         * State 2 -> State 3: Hide modal and display the final letter content.
+         */
+        function openLetter() {
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-90');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+
+                letter_state.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    letter_state.classList.remove('opacity-0');
+                    letter_state.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 50);
+            }, 300); 
+        }
+    </script>
+
+</body>
+</html>
